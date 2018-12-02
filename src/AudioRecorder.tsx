@@ -138,19 +138,10 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   onDownloadClick = () => downloadBlob(this.state.audioData, this.props.filename);
 
   onButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
-    if (this.state.audioData) {
-      if (this.state.isPlaying) {
-        this.stopPlayback();
-        event.preventDefault();
-      } else {
-        this.startPlayback();
-      }
+    if (this.state.isRecording) {
+      this.stopRecording();
     } else {
-      if (this.state.isRecording) {
-        this.stopRecording();
-      } else {
-        this.startRecording();
-      }
+      this.startRecording();
     }
   };
 
@@ -168,27 +159,11 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
           }
           onClick={this.onButtonClick}
         >
-          {this.state.audioData && !this.state.isPlaying && this.props.playLabel}
-          {this.state.audioData && this.state.isPlaying && this.props.playingLabel}
+          {this.state.audioData && this.state.isRecording && this.props.recordingLabel}
+          {this.state.audioData && !this.state.isRecording && this.props.recordLabel}
           {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
           {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
         </button>
-        {this.state.audioData &&
-          <button
-            className="AudioRecorder-remove"
-            onClick={this.onRemoveClick}
-          >
-            {this.props.removeLabel}
-          </button>
-        }
-        {this.state.audioData && this.props.downloadable &&
-          <button
-            className="AudioRecorder-download"
-            onClick={this.onDownloadClick}
-          >
-            {this.props.downloadLabel}
-          </button>
-        }
       </div>
     );
   }
