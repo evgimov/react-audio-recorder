@@ -102,6 +102,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
         duration: this.waveInterface.audioDuration,
         audioData: this.waveInterface.audioData
       });
+      this.waveInterface.reset();
     }
   }
 

@@ -91,6 +91,7 @@ var AudioRecorder = /** @class */ (function (_super) {
                 duration: this.waveInterface.audioDuration,
                 audioData: this.waveInterface.audioData
             });
+            this.waveInterface.reset();
         }
     };
     AudioRecorder.prototype.startPlayback = function () {
