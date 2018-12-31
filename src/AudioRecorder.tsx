@@ -142,7 +142,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     if (this.state.isRecording) {
       this.stopRecording();
     } else {
-      this.startRecording();
+      setTimeout(this.startRecording(), 3000);      
     }
   };
 
