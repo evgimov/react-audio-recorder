@@ -145,8 +145,14 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
       this.startRecording();
       return null;
     } else {
-      // Render a countdown
-      return <span>{seconds}</span>;
+      // Render a countdown and 
+
+      return (
+        <div>
+          <span>Be ready to speak into the microphone in: </span><br/>
+          <span>{seconds}</span>
+        </div>
+      );
     }
   };
 

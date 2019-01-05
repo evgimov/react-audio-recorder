@@ -51,8 +51,11 @@ var AudioRecorder = /** @class */ (function (_super) {
                 return null;
             }
             else {
-                // Render a countdown
-                return React.createElement("span", null, seconds);
+                // Render a countdown and 
+                return (React.createElement("div", null,
+                    React.createElement("span", null, "Be ready to speak into the microphone in: "),
+                    React.createElement("br", null),
+                    React.createElement("span", null, seconds)));
             }
         };
         _this.onDownloadClick = function () { return downloadBlob(_this.state.audioData, _this.props.filename); };
