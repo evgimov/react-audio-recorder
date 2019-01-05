@@ -139,13 +139,13 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     });
   };
 
-  renderer = ({ hours, minutes, seconds, completed }) => {
+  renderer = ({ seconds, completed }) => {
     if (completed) {
       // Render a completed state
       this.startRecording();
     } else {
       // Render a countdown
-      return <span>{hours}:{minutes}:{seconds}</span>;
+      return <span>{seconds}</span>;
     }
   };
 
@@ -169,24 +169,25 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
               date={Date.now() + 3000}
               renderer={this.renderer}
             />
-          ) : ""      
+          ) : (
+            <button
+              className={
+                [
+                  'AudioRecorder-button',
+                  this.state.audioData ? 'hasAudio' : '',
+                  this.state.isPlaying ? 'isPlaying' : '',
+                  this.state.isRecording ? 'isRecording' : '',
+                ].join(' ')
+              }
+              onClick={this.onButtonClick}
+            >
+              {this.state.audioData && this.state.isRecording && this.props.recordingLabel}
+              {this.state.audioData && !this.state.isRecording && this.props.recordLabel}
+              {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
+              {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
+            </button>         
+          )     
         }
-        <button
-          className={
-            [
-              'AudioRecorder-button',
-              this.state.audioData ? 'hasAudio' : '',
-              this.state.isPlaying ? 'isPlaying' : '',
-              this.state.isRecording ? 'isRecording' : '',
-            ].join(' ')
-          }
-          onClick={this.onButtonClick}
-        >
-          {this.state.audioData && this.state.isRecording && this.props.recordingLabel}
-          {this.state.audioData && !this.state.isRecording && this.props.recordLabel}
-          {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
-          {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
-        </button>
       </div>
     );
   }
