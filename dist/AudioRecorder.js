@@ -48,6 +48,7 @@ var AudioRecorder = /** @class */ (function (_super) {
             if (completed) {
                 // Render a completed state
                 _this.startRecording();
+                return null;
             }
             else {
                 // Render a countdown
