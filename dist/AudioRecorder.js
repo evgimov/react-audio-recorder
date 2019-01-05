@@ -47,9 +47,7 @@ var AudioRecorder = /** @class */ (function (_super) {
                 _this.stopRecording();
             }
             else {
-                setTimeout(function () {
-                    this.startRecording();
-                }.bind(_this), 3000);
+                _this.startRecording();
             }
         };
         return _this;
