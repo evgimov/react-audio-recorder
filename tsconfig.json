@@ -14,7 +14,8 @@
     ],
     "outDir": "dist",
     "listEmittedFiles": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./src/**/*",

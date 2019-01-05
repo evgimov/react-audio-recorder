@@ -1,6 +1,7 @@
 import * as React from 'react';
 import WAVEInterface from './waveInterface';
 import downloadBlob from './downloadBlob';
+import Countdown from 'react-countdown-now';
 
 interface AudioRecorderChangeEvent {
   duration: number,
@@ -32,7 +33,8 @@ interface AudioRecorderProps {
 interface AudioRecorderState {
   isRecording: boolean,
   isPlaying: boolean,
-  audioData?: Blob
+  audioData?: Blob,
+  showCountdown: boolean
 };
 
 export default class AudioRecorder extends React.Component<AudioRecorderProps, AudioRecorderState> {
@@ -41,7 +43,8 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   state: AudioRecorderState = {
     isRecording: false,
     isPlaying: false,
-    audioData: this.props.initialAudio
+    audioData: this.props.initialAudio,
+    showCountdown: false
   };
 
   static defaultProps = {
@@ -82,7 +85,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     if (!this.state.isRecording) {
       this.waveInterface.startRecording()
         .then(() => {
-          this.setState({ isRecording: true });
+          this.setState({ isRecording: true, showCountdown: false });
           if (this.props.onRecordStart) this.props.onRecordStart();
         })
         .catch((err) => { throw err; });
@@ -136,19 +139,42 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     });
   };
 
+  renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a completed state
+      this.startRecording();
+    } else {
+      // Render a countdown
+      return <span>{hours}:{minutes}:{seconds}</span>;
+    }
+  };
+
   onDownloadClick = () => downloadBlob(this.state.audioData, this.props.filename);
 
   onButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     if (this.state.isRecording) {
       this.stopRecording();
     } else {
-      this.startRecording();
+      this.setState({ showCountdown: true});
     }
   };
 
   render() {
     return (
       <div className="AudioRecorder">
+        {
+          this.state.showCountdown ?
+          (
+            <Countdown
+              date={Date.now() + 5000}
+              renderer={this.renderer}
+            />
+          ) : ""      
+        }
+        <Countdown
+          date={Date.now() + 5000}
+          renderer={this.renderer}
+        />
         <button
           className={
             [

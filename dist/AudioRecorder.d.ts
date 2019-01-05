@@ -24,6 +24,7 @@ interface AudioRecorderState {
     isRecording: boolean;
     isPlaying: boolean;
     audioData?: Blob;
+    showCountdown: boolean;
 }
 export default class AudioRecorder extends React.Component<AudioRecorderProps, AudioRecorderState> {
     waveInterface: WAVEInterface;
@@ -50,6 +51,12 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     stopPlayback(): void;
     onAudioEnded: () => void;
     onRemoveClick: () => void;
+    renderer: ({ hours, minutes, seconds, completed }: {
+        hours: any;
+        minutes: any;
+        seconds: any;
+        completed: any;
+    }) => JSX.Element;
     onDownloadClick: () => HTMLAnchorElement;
     onButtonClick: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
     render(): JSX.Element;
