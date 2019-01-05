@@ -32,8 +32,7 @@
     "microphone"
   ],
   "peerDependencies": {
-    "react": "^16.3.2",
-    "react-countdown-now": "^2.0.2"
+    "react": "^16.3.2"
   },
   "devDependencies": {
     "@types/react": "^16.4.18",
@@ -56,5 +55,7 @@
       "jsx"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "react-countdown-now": "^2.0.2"
+  }
 }
