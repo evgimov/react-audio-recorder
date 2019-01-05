@@ -131,8 +131,7 @@ var AudioRecorder = /** @class */ (function (_super) {
     AudioRecorder.prototype.render = function () {
         return (React.createElement("div", { className: "AudioRecorder" },
             this.state.showCountdown ?
-                (React.createElement(Countdown, { date: Date.now() + 5000, renderer: this.renderer })) : "",
-            React.createElement(Countdown, { date: Date.now() + 5000, renderer: this.renderer }),
+                (React.createElement(Countdown, { date: Date.now() + 3000, renderer: this.renderer })) : "",
             React.createElement("button", { className: [
                     'AudioRecorder-button',
                     this.state.audioData ? 'hasAudio' : '',
