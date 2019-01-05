@@ -166,15 +166,11 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
           this.state.showCountdown ?
           (
             <Countdown
-              date={Date.now() + 5000}
+              date={Date.now() + 3000}
               renderer={this.renderer}
             />
           ) : ""      
         }
-        <Countdown
-          date={Date.now() + 5000}
-          renderer={this.renderer}
-        />
         <button
           className={
             [
