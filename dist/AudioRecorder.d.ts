@@ -51,9 +51,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     stopPlayback(): void;
     onAudioEnded: () => void;
     onRemoveClick: () => void;
-    renderer: ({ hours, minutes, seconds, completed }: {
-        hours: any;
-        minutes: any;
+    renderer: ({ seconds, completed }: {
         seconds: any;
         completed: any;
     }) => JSX.Element;

@@ -44,19 +44,14 @@ var AudioRecorder = /** @class */ (function (_super) {
             });
         };
         _this.renderer = function (_a) {
-            var hours = _a.hours, minutes = _a.minutes, seconds = _a.seconds, completed = _a.completed;
+            var seconds = _a.seconds, completed = _a.completed;
             if (completed) {
                 // Render a completed state
                 _this.startRecording();
             }
             else {
                 // Render a countdown
-                return React.createElement("span", null,
-                    hours,
-                    ":",
-                    minutes,
-                    ":",
-                    seconds);
+                return React.createElement("span", null, seconds);
             }
         };
         _this.onDownloadClick = function () { return downloadBlob(_this.state.audioData, _this.props.filename); };
@@ -129,19 +124,17 @@ var AudioRecorder = /** @class */ (function (_super) {
             this.props.onAbort();
     };
     AudioRecorder.prototype.render = function () {
-        return (React.createElement("div", { className: "AudioRecorder" },
-            this.state.showCountdown ?
-                (React.createElement(Countdown, { date: Date.now() + 3000, renderer: this.renderer })) : "",
-            React.createElement("button", { className: [
-                    'AudioRecorder-button',
-                    this.state.audioData ? 'hasAudio' : '',
-                    this.state.isPlaying ? 'isPlaying' : '',
-                    this.state.isRecording ? 'isRecording' : '',
-                ].join(' '), onClick: this.onButtonClick },
-                this.state.audioData && this.state.isRecording && this.props.recordingLabel,
-                this.state.audioData && !this.state.isRecording && this.props.recordLabel,
-                !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
-                !this.state.audioData && this.state.isRecording && this.props.recordingLabel)));
+        return (React.createElement("div", { className: "AudioRecorder" }, this.state.showCountdown ?
+            (React.createElement(Countdown, { date: Date.now() + 3000, renderer: this.renderer })) : (React.createElement("button", { className: [
+                'AudioRecorder-button',
+                this.state.audioData ? 'hasAudio' : '',
+                this.state.isPlaying ? 'isPlaying' : '',
+                this.state.isRecording ? 'isRecording' : '',
+            ].join(' '), onClick: this.onButtonClick },
+            this.state.audioData && this.state.isRecording && this.props.recordingLabel,
+            this.state.audioData && !this.state.isRecording && this.props.recordLabel,
+            !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
+            !this.state.audioData && this.state.isRecording && this.props.recordingLabel))));
     };
     AudioRecorder.defaultProps = {
         loop: false,
