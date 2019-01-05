@@ -143,6 +143,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     if (completed) {
       // Render a completed state
       this.startRecording();
+      return null;
     } else {
       // Render a countdown
       return <span>{seconds}</span>;
