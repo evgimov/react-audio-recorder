@@ -28,6 +28,7 @@ interface AudioRecorderProps {
   recordingLabel?: string,
   removeLabel?: string,
   downloadLabel?: string,
+  disableButton?: boolean
 };
 
 interface AudioRecorderState {
@@ -58,7 +59,8 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     recordLabel: '● Record',
     recordingLabel: '● Recording',
     removeLabel: '✖ Remove',
-    downloadLabel: '\ud83d\udcbe Save' // unicode floppy disk
+    downloadLabel: '\ud83d\udcbe Save', // unicode floppy disk,
+    disableButton: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -187,6 +189,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
                 ].join(' ')
               }
               onClick={this.onButtonClick}
+              disabled={this.props.disableButton}
             >
               {this.state.audioData && this.state.isRecording && this.props.recordingLabel}
               {this.state.audioData && !this.state.isRecording && this.props.recordLabel}

@@ -19,6 +19,7 @@ interface AudioRecorderProps {
     recordingLabel?: string;
     removeLabel?: string;
     downloadLabel?: string;
+    disableButton?: boolean;
 }
 interface AudioRecorderState {
     isRecording: boolean;
@@ -41,6 +42,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
         recordingLabel: string;
         removeLabel: string;
         downloadLabel: string;
+        disableButton: boolean;
     };
     componentWillReceiveProps(nextProps: any): void;
     componentWillMount(): void;

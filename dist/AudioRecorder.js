@@ -134,7 +134,7 @@ var AudioRecorder = /** @class */ (function (_super) {
                 this.state.audioData ? 'hasAudio' : '',
                 this.state.isPlaying ? 'isPlaying' : '',
                 this.state.isRecording ? 'isRecording' : '',
-            ].join(' '), onClick: this.onButtonClick },
+            ].join(' '), onClick: this.onButtonClick, disabled: this.props.disableButton },
             this.state.audioData && this.state.isRecording && this.props.recordingLabel,
             this.state.audioData && !this.state.isRecording && this.props.recordLabel,
             !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
@@ -151,7 +151,8 @@ var AudioRecorder = /** @class */ (function (_super) {
         recordLabel: '● Record',
         recordingLabel: '● Recording',
         removeLabel: '✖ Remove',
-        downloadLabel: '\ud83d\udcbe Save' // unicode floppy disk
+        downloadLabel: '\ud83d\udcbe Save',
+        disableButton: false
     };
     return AudioRecorder;
 }(React.Component));
