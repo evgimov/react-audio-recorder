@@ -1,8 +1,10 @@
 import encodeWAV from './waveEncoder';
-import AudioContext from './AudioContext';
+import AudioContext, { unlock } from './AudioContext';
 var WAVEInterface = /** @class */ (function () {
     function WAVEInterface() {
         this.recordingNodes = [];
+        var result = unlock(WAVEInterface.audioContext);
+        console.log("Unlock AudioRecorder result:", result);
     }
     Object.defineProperty(WAVEInterface.prototype, "bufferLength", {
         get: function () { return this.buffers[0].length * WAVEInterface.bufferSize; },

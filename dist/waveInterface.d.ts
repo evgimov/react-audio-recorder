@@ -6,6 +6,7 @@ export default class WAVEInterface {
     recordingStream: MediaStream;
     buffers: Float32Array[][];
     encodingCache?: Blob;
+    constructor();
     readonly bufferLength: number;
     readonly audioDuration: number;
     readonly audioData: Blob;
