@@ -1,6 +1,6 @@
 import encodeWAV from './waveEncoder';
 import getUserMedia from './getUserMedia';
-import AudioContext from './AudioContext';
+import AudioContext, { simple, unlock } from './AudioContext';
 
 export default class WAVEInterface {
   static audioContext = new AudioContext();
@@ -11,6 +11,11 @@ export default class WAVEInterface {
   recordingStream: MediaStream;
   buffers: Float32Array[][]; // one buffer for each channel L,R
   encodingCache?: Blob;
+
+  constructor() {
+    let result = unlock(WAVEInterface.audioContext);
+    console.log("Unlock AudioRecorder result:", result);
+  }
 
   get bufferLength() { return this.buffers[0].length * WAVEInterface.bufferSize; }
   get audioDuration() { return this.bufferLength / WAVEInterface.audioContext.sampleRate; }
