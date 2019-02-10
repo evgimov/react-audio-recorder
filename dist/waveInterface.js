@@ -25,6 +25,9 @@ var WAVEInterface = /** @class */ (function () {
     });
     WAVEInterface.prototype.startRecording = function () {
         var _this = this;
+        console.log('startRecording()');
+        console.log('Should we unlock?');
+        console.log('unlock: ', unlock(WAVEInterface.audioContext));
         return new Promise(function (resolve, reject) {
             navigator.getUserMedia({ audio: true }, function (stream) {
                 var audioContext = WAVEInterface.audioContext;

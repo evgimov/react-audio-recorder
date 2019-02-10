@@ -39,20 +39,27 @@ export var unlock = function (context) { return __awaiter(_this, void 0, void 0,
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, new Promise(function (resolve, reject) {
+                    console.log("context.state: ", context.state);
                     if (context.state === 'suspended' && 'ontouchstart' in window) {
-                        var unlock = function () {
+                        var _unlock = function () {
+                            console.log("_unlock()");
                             context.resume().then(function () {
-                                document.body.removeEventListener('touchstart', unlock);
-                                document.body.removeEventListener('touchend', unlock);
+                                console.log("context.resume() SUCCESS");
+                                document.body.removeEventListener('touchstart', _unlock);
+                                document.body.removeEventListener('touchend', _unlock);
                                 resolve(true);
                             }, function (reason) {
+                                console.log("context.resume() Failure:", reason);
                                 reject(reason);
                             });
                         };
-                        document.body.addEventListener('touchstart', unlock, false);
-                        document.body.addEventListener('touchend', unlock, false);
+                        console.log("document.body.addEventListener('touchstart', _unlock, false);");
+                        console.log("document.body.addEventListener('touchend', _unlock, false);");
+                        document.body.addEventListener('touchstart', _unlock, false);
+                        document.body.addEventListener('touchend', _unlock, false);
                     }
                     else {
+                        console.log('Not calling _unlock()');
                         resolve(false);
                     }
                 })];
@@ -60,4 +67,3 @@ export var unlock = function (context) { return __awaiter(_this, void 0, void 0,
         }
     });
 }); };
-export var simple = function (foo) { return foo.toString(); };

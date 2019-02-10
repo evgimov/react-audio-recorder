@@ -1,6 +1,6 @@
 import encodeWAV from './waveEncoder';
 import getUserMedia from './getUserMedia';
-import AudioContext, { simple, unlock } from './AudioContext';
+import AudioContext, { unlock } from './AudioContext';
 
 export default class WAVEInterface {
   static audioContext = new AudioContext();
@@ -24,6 +24,9 @@ export default class WAVEInterface {
   }
 
   startRecording() {
+    console.log('startRecording()')
+    console.log('Should we unlock?')
+    console.log('unlock: ', unlock(WAVEInterface.audioContext));
     return new Promise((resolve, reject) => {
       navigator.getUserMedia({ audio: true }, (stream) => {
         const { audioContext } = WAVEInterface;
