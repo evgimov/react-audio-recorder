@@ -104,10 +104,8 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
 
   startRecording() {
     const context = WAVEInterface.audioContext;
-    console.log("AudioContext.state: ", context.state);
     if (context.state === 'suspended') {
       this.resume(context);
-      console.log("AudioContext.state: ", context.state);
     }
 
     if (!this.state.isRecording) {
