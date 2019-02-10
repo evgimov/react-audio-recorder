@@ -47,6 +47,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     componentWillReceiveProps(nextProps: any): void;
     componentWillMount(): void;
     componentWillUnmount(): void;
+    resume(context: any): Promise<any>;
     startRecording(): void;
     stopRecording(): void;
     startPlayback(): void;

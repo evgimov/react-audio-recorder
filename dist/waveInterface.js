@@ -23,12 +23,6 @@ var WAVEInterface = /** @class */ (function () {
     });
     WAVEInterface.prototype.startRecording = function () {
         var _this = this;
-        console.log('startRecording() context.state:', WAVEInterface.audioContext.state);
-        if (WAVEInterface.audioContext.state === 'suspended') {
-            console.log('context.resume()');
-            WAVEInterface.audioContext.resume();
-        }
-        console.log('context.state:', WAVEInterface.audioContext.state);
         return new Promise(function (resolve, reject) {
             navigator.getUserMedia({ audio: true }, function (stream) {
                 var audioContext = WAVEInterface.audioContext;
@@ -70,9 +64,6 @@ var WAVEInterface = /** @class */ (function () {
     WAVEInterface.prototype.startPlayback = function (loop, onended) {
         var _this = this;
         if (loop === void 0) { loop = false; }
-        if (WAVEInterface.audioContext.state === 'suspended') {
-            WAVEInterface.audioContext.resume();
-        }
         return new Promise(function (resolve, reject) {
             var reader = new FileReader();
             reader.readAsArrayBuffer(_this.audioData);

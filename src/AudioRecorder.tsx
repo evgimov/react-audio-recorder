@@ -83,7 +83,18 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   componentWillMount() { this.waveInterface.reset(); }
   componentWillUnmount() { this.waveInterface.reset(); }
 
+  async resume(context) {
+    return await context.resume();
+  }
+
   startRecording() {
+    const context = WAVEInterface.audioContext;
+    console.debug("AudioContext.state: ", context.state);
+    if (context.state === 'suspended') {
+      this.resume(context);
+      console.debug("AudioContext.state: ", context.state);
+    }
+
     if (!this.state.isRecording) {
       this.waveInterface.startRecording()
         .then(() => {
@@ -112,6 +123,11 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   }
 
   startPlayback() {
+    const context = WAVEInterface.audioContext;
+    if (context.state === 'suspended') {
+      this.resume(context);
+    }
+
     if (!this.state.isPlaying) {
       this.waveInterface.startPlayback(this.props.loop, this.onAudioEnded).then(() => {
         this.setState({ isPlaying: true });

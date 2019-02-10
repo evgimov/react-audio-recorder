@@ -19,12 +19,6 @@ export default class WAVEInterface {
   }
 
   startRecording() {
-    console.log('startRecording() context.state:', WAVEInterface.audioContext.state);
-    if (WAVEInterface.audioContext.state === 'suspended') {
-      console.log('context.resume()');
-      WAVEInterface.audioContext.resume();
-    }
-    console.log('context.state:', WAVEInterface.audioContext.state);
     return new Promise((resolve, reject) => {
       navigator.getUserMedia({ audio: true }, (stream) => {
         const { audioContext } = WAVEInterface;
@@ -67,9 +61,6 @@ export default class WAVEInterface {
   }
 
   startPlayback(loop: boolean = false, onended: () => void) {
-    if (WAVEInterface.audioContext.state === 'suspended') {
-      WAVEInterface.audioContext.resume();
-    }
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsArrayBuffer(this.audioData);
