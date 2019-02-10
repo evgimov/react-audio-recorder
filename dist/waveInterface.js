@@ -1,11 +1,8 @@
 import encodeWAV from './waveEncoder';
-import AudioContext, { unlock } from './AudioContext';
+import AudioContext from './AudioContext';
 var WAVEInterface = /** @class */ (function () {
     function WAVEInterface() {
         this.recordingNodes = [];
-        console.log("constructor WAVEInterface.audioContext.state:", WAVEInterface.audioContext.state);
-        var result = unlock(WAVEInterface.audioContext);
-        console.log("Unlock AudioRecorder result:", result);
     }
     Object.defineProperty(WAVEInterface.prototype, "bufferLength", {
         get: function () { return this.buffers[0].length * WAVEInterface.bufferSize; },
@@ -26,9 +23,12 @@ var WAVEInterface = /** @class */ (function () {
     });
     WAVEInterface.prototype.startRecording = function () {
         var _this = this;
-        console.log('startRecording()');
-        console.log('Should we unlock?');
-        console.log('unlock: ', unlock(WAVEInterface.audioContext));
+        console.log('startRecording() context.state:', WAVEInterface.audioContext.state);
+        if (WAVEInterface.audioContext.state === 'suspended') {
+            console.log('context.resume()');
+            WAVEInterface.audioContext.resume();
+        }
+        console.log('context.state:', WAVEInterface.audioContext.state);
         return new Promise(function (resolve, reject) {
             navigator.getUserMedia({ audio: true }, function (stream) {
                 var audioContext = WAVEInterface.audioContext;
@@ -70,6 +70,9 @@ var WAVEInterface = /** @class */ (function () {
     WAVEInterface.prototype.startPlayback = function (loop, onended) {
         var _this = this;
         if (loop === void 0) { loop = false; }
+        if (WAVEInterface.audioContext.state === 'suspended') {
+            WAVEInterface.audioContext.resume();
+        }
         return new Promise(function (resolve, reject) {
             var reader = new FileReader();
             reader.readAsArrayBuffer(_this.audioData);
