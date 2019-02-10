@@ -47,6 +47,14 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     componentWillReceiveProps(nextProps: any): void;
     componentWillMount(): void;
     componentWillUnmount(): void;
+    /**
+     * Handle the browser's stricter policy for preventing auto play
+     * by attempting to un-suspend AudioContext.state if it is 'suspended'.
+     *
+     * Reference: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
+     *
+     * @param context AudioContext
+     */
     resume(context: any): Promise<any>;
     startRecording(): void;
     stopRecording(): void;

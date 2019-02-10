@@ -120,12 +120,26 @@ var AudioRecorder = /** @class */ (function (_super) {
     };
     AudioRecorder.prototype.componentWillMount = function () { this.waveInterface.reset(); };
     AudioRecorder.prototype.componentWillUnmount = function () { this.waveInterface.reset(); };
+    /**
+     * Handle the browser's stricter policy for preventing auto play
+     * by attempting to un-suspend AudioContext.state if it is 'suspended'.
+     *
+     * Reference: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
+     *
+     * @param context AudioContext
+     */
     AudioRecorder.prototype.resume = function (context) {
         return __awaiter(this, void 0, void 0, function () {
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, context.resume()];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        result = _a.sent();
+                        if (context.state === 'suspended') {
+                            console.error("Your browser has suspended the AudioContext. Unable to resume() it. \n      For more details, see:  https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio");
+                        }
+                        return [2 /*return*/, result];
                 }
             });
         });
@@ -133,10 +147,10 @@ var AudioRecorder = /** @class */ (function (_super) {
     AudioRecorder.prototype.startRecording = function () {
         var _this = this;
         var context = WAVEInterface.audioContext;
-        console.debug("AudioContext.state: ", context.state);
+        console.log("AudioContext.state: ", context.state);
         if (context.state === 'suspended') {
             this.resume(context);
-            console.debug("AudioContext.state: ", context.state);
+            console.log("AudioContext.state: ", context.state);
         }
         if (!this.state.isRecording) {
             this.waveInterface.startRecording()

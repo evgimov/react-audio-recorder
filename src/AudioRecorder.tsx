@@ -83,16 +83,31 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   componentWillMount() { this.waveInterface.reset(); }
   componentWillUnmount() { this.waveInterface.reset(); }
 
+  /**
+   * Handle the browser's stricter policy for preventing auto play
+   * by attempting to un-suspend AudioContext.state if it is 'suspended'.
+   * 
+   * Reference: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio 
+   * 
+   * @param context AudioContext
+   */
   async resume(context) {
-    return await context.resume();
+    const result = await context.resume();
+
+    if (context.state === 'suspended') {
+      console.error(`Your browser has suspended the AudioContext. Unable to resume() it. 
+      For more details, see:  https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio`);
+    }
+
+    return result;
   }
 
   startRecording() {
     const context = WAVEInterface.audioContext;
-    console.debug("AudioContext.state: ", context.state);
+    console.log("AudioContext.state: ", context.state);
     if (context.state === 'suspended') {
       this.resume(context);
-      console.debug("AudioContext.state: ", context.state);
+      console.log("AudioContext.state: ", context.state);
     }
 
     if (!this.state.isRecording) {
