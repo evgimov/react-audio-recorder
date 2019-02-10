@@ -3,6 +3,7 @@ import AudioContext, { unlock } from './AudioContext';
 var WAVEInterface = /** @class */ (function () {
     function WAVEInterface() {
         this.recordingNodes = [];
+        console.log("constructor WAVEInterface.audioContext.state:", WAVEInterface.audioContext.state);
         var result = unlock(WAVEInterface.audioContext);
         console.log("Unlock AudioRecorder result:", result);
     }

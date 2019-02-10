@@ -5,14 +5,16 @@ export const unlock: (context: AudioContext) => Promise<{}>
     return await new Promise(function (resolve, reject)
     {
         console.log("context.state: ", context.state);
-        if (context.state === 'suspended' && 'ontouchstart' in window) {
+        if (context.state === 'suspended') {
             var _unlock = function() {
                 console.log("_unlock()");
-                context.resume().then(function()
-                {
+                context.resume().then(function() {
+
                     console.log("context.resume() SUCCESS");
-                    document.body.removeEventListener('touchstart', _unlock);
-                    document.body.removeEventListener('touchend', _unlock);
+                    // if ('ontouchstart' in window) {
+                        document.body.removeEventListener('touchstart', _unlock);
+                        document.body.removeEventListener('touchend', _unlock);
+                    // }
 
                     resolve(true);
                 }, 

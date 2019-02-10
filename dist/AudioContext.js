@@ -40,13 +40,15 @@ export var unlock = function (context) { return __awaiter(_this, void 0, void 0,
         switch (_a.label) {
             case 0: return [4 /*yield*/, new Promise(function (resolve, reject) {
                     console.log("context.state: ", context.state);
-                    if (context.state === 'suspended' && 'ontouchstart' in window) {
+                    if (context.state === 'suspended') {
                         var _unlock = function () {
                             console.log("_unlock()");
                             context.resume().then(function () {
                                 console.log("context.resume() SUCCESS");
+                                // if ('ontouchstart' in window) {
                                 document.body.removeEventListener('touchstart', _unlock);
                                 document.body.removeEventListener('touchend', _unlock);
+                                // }
                                 resolve(true);
                             }, function (reason) {
                                 console.log("context.resume() Failure:", reason);

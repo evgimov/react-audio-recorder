@@ -13,8 +13,10 @@ export default class WAVEInterface {
   encodingCache?: Blob;
 
   constructor() {
+    console.log("constructor WAVEInterface.audioContext.state:", WAVEInterface.audioContext.state);
     let result = unlock(WAVEInterface.audioContext);
     console.log("Unlock AudioRecorder result:", result);
+
   }
 
   get bufferLength() { return this.buffers[0].length * WAVEInterface.bufferSize; }
