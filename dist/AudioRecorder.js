@@ -147,6 +147,7 @@ var AudioRecorder = /** @class */ (function (_super) {
     AudioRecorder.prototype.startRecording = function () {
         var _this = this;
         var context = WAVEInterface.audioContext;
+        console.log(context.state);
         if (context.state === 'suspended') {
             this.resume(context);
         }
