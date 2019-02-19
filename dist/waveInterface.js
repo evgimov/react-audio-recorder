@@ -1,5 +1,5 @@
 import encodeWAV from './waveEncoder';
-import getUserMedia from './getUserMedia';
+//import getUserMedia from './getUserMedia';
 import AudioContext from './AudioContext';
 var WAVEInterface = /** @class */ (function () {
     function WAVEInterface() {
@@ -24,33 +24,29 @@ var WAVEInterface = /** @class */ (function () {
     });
     WAVEInterface.prototype.startRecording = function () {
         var _this = this;
-        console.log(navigator.getUserMedia);
-        return new Promise(function (resolve, reject) {
-            getUserMedia({ audio: true }, function (stream) {
-                var audioContext = WAVEInterface.audioContext;
-                var recGainNode = audioContext.createGain();
-                var recSourceNode = audioContext.createMediaStreamSource(stream);
-                var recProcessingNode = audioContext.createScriptProcessor(WAVEInterface.bufferSize, 2, 2);
+        return navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+            var audioContext = WAVEInterface.audioContext;
+            var recGainNode = audioContext.createGain();
+            var recSourceNode = audioContext.createMediaStreamSource(stream);
+            var recProcessingNode = audioContext.createScriptProcessor(WAVEInterface.bufferSize, 2, 2);
+            if (_this.encodingCache)
+                _this.encodingCache = null;
+            recProcessingNode.onaudioprocess = function (event) {
                 if (_this.encodingCache)
                     _this.encodingCache = null;
-                recProcessingNode.onaudioprocess = function (event) {
-                    if (_this.encodingCache)
-                        _this.encodingCache = null;
-                    // save left and right buffers
-                    for (var i = 0; i < 2; i++) {
-                        var channel = event.inputBuffer.getChannelData(i);
-                        _this.buffers[i].push(new Float32Array(channel));
-                    }
-                };
-                recSourceNode.connect(recGainNode);
-                recGainNode.connect(recProcessingNode);
-                recProcessingNode.connect(audioContext.destination);
-                _this.recordingStream = stream;
-                _this.recordingNodes.push(recSourceNode, recGainNode, recProcessingNode);
-                resolve(stream);
-            }, function (err) {
-                reject(err);
-            });
+                // save left and right buffers
+                for (var i = 0; i < 2; i++) {
+                    var channel = event.inputBuffer.getChannelData(i);
+                    _this.buffers[i].push(new Float32Array(channel));
+                }
+            };
+            recSourceNode.connect(recGainNode);
+            recGainNode.connect(recProcessingNode);
+            recProcessingNode.connect(audioContext.destination);
+            _this.recordingStream = stream;
+            _this.recordingNodes.push(recSourceNode, recGainNode, recProcessingNode);
+        }).catch(function (err) {
+            console.log(err);
         });
     };
     WAVEInterface.prototype.stopRecording = function () {

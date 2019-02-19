@@ -19,7 +19,7 @@ export default class WAVEInterface {
   }
 
   startRecording() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+    return navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const { audioContext } = WAVEInterface;
       const recGainNode = audioContext.createGain();
       const recSourceNode = audioContext.createMediaStreamSource(stream);
