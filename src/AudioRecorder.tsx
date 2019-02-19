@@ -2,6 +2,7 @@ import * as React from 'react';
 import WAVEInterface from './waveInterface';
 import downloadBlob from './downloadBlob';
 import Countdown from 'react-countdown-now';
+import 'webrtc-adapter/out/adapter.js';
 
 interface AudioRecorderChangeEvent {
   duration: number,

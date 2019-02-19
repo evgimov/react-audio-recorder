@@ -56,6 +56,7 @@
     ]
   },
   "dependencies": {
-    "react-countdown-now": "^2.0.2"
+    "react-countdown-now": "^2.0.2",
+    "webrtc-adapter": "^7.2.0"
   }
 }
