@@ -1,5 +1,5 @@
 import encodeWAV from './waveEncoder';
-import getUserMedia from './getUserMedia';
+//import getUserMedia from './getUserMedia';
 import AudioContext from './AudioContext';
 
 export default class WAVEInterface {
@@ -19,34 +19,30 @@ export default class WAVEInterface {
   }
 
   startRecording() {
-    console.log(navigator.getUserMedia);
-    return new Promise((resolve, reject) => {
-      getUserMedia({ audio: true }, (stream) => {
-        const { audioContext } = WAVEInterface;
-        const recGainNode = audioContext.createGain();
-        const recSourceNode = audioContext.createMediaStreamSource(stream);
-        const recProcessingNode = audioContext.createScriptProcessor(WAVEInterface.bufferSize, 2, 2);
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const { audioContext } = WAVEInterface;
+      const recGainNode = audioContext.createGain();
+      const recSourceNode = audioContext.createMediaStreamSource(stream);
+      const recProcessingNode = audioContext.createScriptProcessor(WAVEInterface.bufferSize, 2, 2);
+      if (this.encodingCache) this.encodingCache = null;
+
+      recProcessingNode.onaudioprocess = (event) => {
         if (this.encodingCache) this.encodingCache = null;
+        // save left and right buffers
+        for (let i = 0; i < 2; i++) {
+          const channel = event.inputBuffer.getChannelData(i);
+          this.buffers[i].push(new Float32Array(channel));
+        }
+      };
 
-        recProcessingNode.onaudioprocess = (event) => {
-          if (this.encodingCache) this.encodingCache = null;
-          // save left and right buffers
-          for (let i = 0; i < 2; i++) {
-            const channel = event.inputBuffer.getChannelData(i);
-            this.buffers[i].push(new Float32Array(channel));
-          }
-        };
+      recSourceNode.connect(recGainNode);
+      recGainNode.connect(recProcessingNode);
+      recProcessingNode.connect(audioContext.destination);
 
-        recSourceNode.connect(recGainNode);
-        recGainNode.connect(recProcessingNode);
-        recProcessingNode.connect(audioContext.destination);
-
-        this.recordingStream = stream;
-        this.recordingNodes.push(recSourceNode, recGainNode, recProcessingNode);
-        resolve(stream);
-      }, (err) => {
-        reject(err);
-      });
+      this.recordingStream = stream;
+      this.recordingNodes.push(recSourceNode, recGainNode, recProcessingNode);
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
