@@ -1,2 +1,2 @@
-declare const _default: (constraints: MediaStreamConstraints, successCallback: NavigatorUserMediaSuccessCallback, errorCallback: NavigatorUserMediaErrorCallback) => void;
+declare const _default: any;
 export default _default;

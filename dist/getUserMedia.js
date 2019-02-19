@@ -1,5 +1,5 @@
 export default navigator.mediaDevices ?
-    navigator.mediaDevices.getUserMedia :
-    (navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia);
+    navigator.mediaDevices.getUserMedia.bind(navigator) :
+    (navigator.getUserMedia.bind(navigator) ||
+        navigator.webkitGetUserMedia.bind(navigator) ||
+        navigator.mozGetUserMedia.bind(navigator));
