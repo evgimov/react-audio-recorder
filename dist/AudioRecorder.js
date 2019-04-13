@@ -101,6 +101,7 @@ var AudioRecorder = /** @class */ (function (_super) {
                 _this.stopRecording();
             }
             else {
+                _this.startRecording();
                 //  this.setState({ showCountdown: true});
             }
         };
