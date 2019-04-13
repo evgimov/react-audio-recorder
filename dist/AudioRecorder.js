@@ -49,7 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import * as React from 'react';
 import WAVEInterface from './waveInterface';
 import downloadBlob from './downloadBlob';
-import Countdown from 'react-countdown-now';
+//import Countdown from 'react-countdown-now';
 import 'webrtc-adapter/out/adapter.js';
 ;
 ;
@@ -61,8 +61,8 @@ var AudioRecorder = /** @class */ (function (_super) {
         _this.state = {
             isRecording: false,
             isPlaying: false,
-            audioData: _this.props.initialAudio,
-            showCountdown: false
+            audioData: _this.props.initialAudio
+            //showCountdown: false
         };
         _this.onAudioEnded = function () {
             _this.setState({ isPlaying: false });
@@ -79,28 +79,29 @@ var AudioRecorder = /** @class */ (function (_super) {
                 audioData: null,
             });
         };
-        _this.renderer = function (_a) {
-            var seconds = _a.seconds, completed = _a.completed;
-            if (completed) {
-                // Render a completed state
-                _this.startRecording();
-                return null;
-            }
-            else {
-                // Render a countdown and 
-                return (React.createElement("div", null,
-                    React.createElement("span", null, "Be ready to speak into the microphone in: "),
-                    React.createElement("br", null),
-                    React.createElement("span", null, seconds)));
-            }
-        };
+        /*renderer = ({ seconds, completed }) => {
+          if (completed) {
+            // Render a completed state
+            this.startRecording();
+            return null;
+          } else {
+            // Render a countdown and
+      
+            return (
+              <div>
+                <span>Be ready to speak into the microphone in: </span><br/>
+                <span>{seconds}</span>
+              </div>
+            );
+          }
+        };*/
         _this.onDownloadClick = function () { return downloadBlob(_this.state.audioData, _this.props.filename); };
         _this.onButtonClick = function (event) {
             if (_this.state.isRecording) {
                 _this.stopRecording();
             }
             else {
-                _this.setState({ showCountdown: true });
+                //  this.setState({ showCountdown: true});
             }
         };
         return _this;
@@ -155,7 +156,8 @@ var AudioRecorder = /** @class */ (function (_super) {
         if (!this.state.isRecording) {
             this.waveInterface.startRecording()
                 .then(function () {
-                _this.setState({ isRecording: true, showCountdown: false });
+                //this.setState({ isRecording: true, showCountdown: false });
+                _this.setState({ isRecording: true });
                 if (_this.props.onRecordStart)
                     _this.props.onRecordStart();
             })
@@ -197,17 +199,17 @@ var AudioRecorder = /** @class */ (function (_super) {
             this.props.onAbort();
     };
     AudioRecorder.prototype.render = function () {
-        return (React.createElement("div", { className: "AudioRecorder" }, this.state.showCountdown ?
-            (React.createElement(Countdown, { date: Date.now() + 3000, renderer: this.renderer })) : (React.createElement("button", { className: [
-                'AudioRecorder-button',
-                this.state.audioData ? 'hasAudio' : '',
-                this.state.isPlaying ? 'isPlaying' : '',
-                this.state.isRecording ? 'isRecording' : '',
-            ].join(' '), onClick: this.onButtonClick, disabled: this.props.disableButton },
-            this.state.audioData && this.state.isRecording && this.props.recordingLabel,
-            this.state.audioData && !this.state.isRecording && this.props.recordLabel,
-            !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
-            !this.state.audioData && this.state.isRecording && this.props.recordingLabel))));
+        return (React.createElement("div", { className: "AudioRecorder" },
+            React.createElement("button", { className: [
+                    'AudioRecorder-button',
+                    this.state.audioData ? 'hasAudio' : '',
+                    this.state.isPlaying ? 'isPlaying' : '',
+                    this.state.isRecording ? 'isRecording' : '',
+                ].join(' '), onClick: this.onButtonClick, disabled: this.props.disableButton },
+                this.state.audioData && this.state.isRecording && this.props.recordingLabel,
+                this.state.audioData && !this.state.isRecording && this.props.recordLabel,
+                !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
+                !this.state.audioData && this.state.isRecording && this.props.recordingLabel)));
     };
     AudioRecorder.defaultProps = {
         loop: false,

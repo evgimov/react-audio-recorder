@@ -1,14 +1,14 @@
 import * as React from 'react';
 import WAVEInterface from './waveInterface';
 import downloadBlob from './downloadBlob';
-import Countdown from 'react-countdown-now';
+//import Countdown from 'react-countdown-now';
 import 'webrtc-adapter/out/adapter.js';
 
 interface AudioRecorderChangeEvent {
   duration: number,
   audioData?: Blob,
 }
-interface AudioRecorderProps {
+export interface AudioRecorderProps {
   initialAudio?: Blob,
   downloadable?: boolean,
   loop?: boolean,
@@ -32,11 +32,11 @@ interface AudioRecorderProps {
   disableButton?: boolean
 };
 
-interface AudioRecorderState {
+ export interface AudioRecorderState {
   isRecording: boolean,
   isPlaying: boolean,
-  audioData?: Blob,
-  showCountdown: boolean
+  audioData?: Blob
+  //showCountdown: boolean
 };
 
 export default class AudioRecorder extends React.Component<AudioRecorderProps, AudioRecorderState> {
@@ -45,8 +45,8 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   state: AudioRecorderState = {
     isRecording: false,
     isPlaying: false,
-    audioData: this.props.initialAudio,
-    showCountdown: false
+    audioData: this.props.initialAudio
+    //showCountdown: false
   };
 
   static defaultProps = {
@@ -113,7 +113,8 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     if (!this.state.isRecording) {
       this.waveInterface.startRecording()
         .then(() => {
-          this.setState({ isRecording: true, showCountdown: false });
+          //this.setState({ isRecording: true, showCountdown: false });
+          this.setState({ isRecording: true });
           if (this.props.onRecordStart) this.props.onRecordStart();
         })
         .catch((err) => { throw err; });
@@ -172,7 +173,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     });
   };
 
-  renderer = ({ seconds, completed }) => {
+  /*renderer = ({ seconds, completed }) => {
     if (completed) {
       // Render a completed state
       this.startRecording();
@@ -187,7 +188,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
         </div>
       );
     }
-  };
+  };*/
 
   onDownloadClick = () => downloadBlob(this.state.audioData, this.props.filename);
 
@@ -195,7 +196,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     if (this.state.isRecording) {
       this.stopRecording();
     } else {
-      this.setState({ showCountdown: true});
+    //  this.setState({ showCountdown: true});
     }
   };
 
@@ -203,7 +204,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     return (
       <div className="AudioRecorder">
         {
-          this.state.showCountdown ?
+          /*this.state.showCountdown ?
           (
             <Countdown
               date={Date.now() + 3000}
@@ -227,8 +228,25 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
               {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
               {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
             </button>         
-          )     
-        }
+          )*/           
+        }          
+        <button
+          className={
+            [
+              'AudioRecorder-button',
+              this.state.audioData ? 'hasAudio' : '',
+              this.state.isPlaying ? 'isPlaying' : '',
+              this.state.isRecording ? 'isRecording' : '',
+            ].join(' ')
+          }
+          onClick={this.onButtonClick}
+          disabled={this.props.disableButton}
+        >
+          {this.state.audioData && this.state.isRecording && this.props.recordingLabel}
+          {this.state.audioData && !this.state.isRecording && this.props.recordLabel}
+          {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
+          {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
+        </button>     
       </div>
     );
   }

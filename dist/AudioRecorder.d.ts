@@ -1,7 +1,7 @@
 import * as React from 'react';
 import WAVEInterface from './waveInterface';
 import 'webrtc-adapter/out/adapter.js';
-interface AudioRecorderProps {
+export interface AudioRecorderProps {
     initialAudio?: Blob;
     downloadable?: boolean;
     loop?: boolean;
@@ -22,11 +22,10 @@ interface AudioRecorderProps {
     downloadLabel?: string;
     disableButton?: boolean;
 }
-interface AudioRecorderState {
+export interface AudioRecorderState {
     isRecording: boolean;
     isPlaying: boolean;
     audioData?: Blob;
-    showCountdown: boolean;
 }
 export default class AudioRecorder extends React.Component<AudioRecorderProps, AudioRecorderState> {
     waveInterface: WAVEInterface;
@@ -63,12 +62,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     stopPlayback(): void;
     onAudioEnded: () => void;
     onRemoveClick: () => void;
-    renderer: ({ seconds, completed }: {
-        seconds: any;
-        completed: any;
-    }) => JSX.Element;
     onDownloadClick: () => HTMLAnchorElement;
     onButtonClick: (event: React.SyntheticEvent<HTMLButtonElement, Event>) => void;
     render(): JSX.Element;
 }
-export {};
